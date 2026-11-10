@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learning Online 101 · Animations and Art</title>
+<meta name="description" content="Character animations, illustrations and an illustrated campus map made for Learning Online 101, CSU Channel Islands.">
+<style>
+  :root { --ink:#174A5D; --bg:#FDF8EF; --card:#FFFFFF; --muted:#3F4547; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--muted); font:17px/1.6 Georgia, "Times New Roman", serif; }
+  main { max-width:1100px; margin:0 auto; padding:40px 16px 64px; }
+  h1, h2 { color:var(--ink); line-height:1.2; }
+  h1 { font-size:clamp(30px,5vw,44px); margin:0 0 8px; }
+  h2 { font-size:clamp(22px,3.4vw,28px); margin:48px 0 12px; }
+  p { max-width:70ch; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr)); gap:20px; }
+  figure { margin:0; background:var(--card); border-radius:16px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,.08); }
+  figcaption { padding:10px 14px 14px; font-size:15px; }
+  .frame { position:relative; padding-bottom:56.25%; }
+  .frame iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+  img { display:block; width:100%; height:auto; }
+  .map { max-width:760px; }
+  a { color:var(--ink); }
+  footer { margin-top:56px; font-size:15px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Learning Online 101: Animations and Art</h1>
+  <p>Learning Online 101 gets CSU Channel Islands students ready for online and blended classes. Each module opens with a short moment: a student meeting the challenge the module teaches. These are the pieces made for the 2027 version of the course.</p>
+
+  <h2>Character moments</h2>
+  <p>Eight short animations, one per module. Each loops and has a Play/Pause button, and it starts paused for anyone who has turned on reduced motion.</p>
+  <div class="grid" id="moments"></div>
+
+  <h2>Illustrations</h2>
+  <p>One look for all eight scenes: flat shapes, no outlines, the same eyes, each scene in its module's colours.</p>
+  <div class="grid" id="scenes"></div>
+
+  <h2>Illustrated campus map</h2>
+  <p>Drawn from a public-domain USDA NAIP satellite image (2022), so every building sits where it really is. Each module is a stop on a walk across campus: Welcome at Gateway Hall, then the North Quad, the Student Union, the Broome Library, the Bell Tower, the Town Center, Sierra Hall, and the South Quad.</p>
+  <figure class="map"><img src="img/campus_map.jpg" alt="Illustrated map of the CSU Channel Islands campus with eight numbered stops, one for each module" width="1600" height="1600" loading="lazy"></figure>
+
+  <footer>
+    <p>Learning design and art direction: Ana Peñaranda, Teaching and Learning Innovations, CSU Channel Islands. Characters are fictional and made with AI image tools (OpenAI Image 2.6), animated with Seedance 2.5; words and layout are set by hand.</p>
+  </footer>
+</main>
+<script>
+const M = [["W","Welcome","A student opens her laptop at the kitchen table and smiles, ready to start"],
+ ["M1","Module 1 · Know the Terrain","A student at a bus stop taps her phone and smiles"],
+ ["M2","Module 2 · Show Up, Speak Up","A student posts a question on his phone, gets a reply and smiles"],
+ ["M3","Module 3 · Own Your Week","A student plans her week in a paper planner and lifts her pen, pleased"],
+ ["M4","Module 4 · Your Support Crew","A student sees an error on his phone, fixes it on his laptop and leans back, relieved"],
+ ["M5","Module 5 · Try the Tools","A student watches a lecture on her laptop with headphones and cheers when it clicks"],
+ ["M6","Module 6 · AI: Check Before You Use","Two students read their screens. One looks puzzled, the other raises her hand"],
+ ["M7","Module 7 · Claim It","A student at her laptop throws her arms up and cheers"]];
+const S = {W:"W_kitchen",M1:"M1_bus",M2:"M2_break",M3:"M3_desk",M4:"M4_couch",M5:"M5_beanbag",M6:"M6_pair",M7:"M7_cheer"};
+const m = document.getElementById("moments"), s = document.getElementById("scenes");
+for (const [k, title, alt] of M) {
+  m.insertAdjacentHTML("beforeend", `<figure><div class="frame"><iframe src="../index.html?m=${k}" title="Animation: ${alt}" loading="lazy"></iframe></div><figcaption><strong>${title}.</strong> ${alt}.</figcaption></figure>`);
+  s.insertAdjacentHTML("beforeend", `<figure><img src="img/${S[k]}.jpg" alt="Illustration: ${alt}" loading="lazy"><figcaption>${title}</figcaption></figure>`);
+}
+</script>
+</body>
+</html>

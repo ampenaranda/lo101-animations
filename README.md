@@ -5,3 +5,8 @@ Each one is embedded in a Canvas page as an iframe: `index.html?m=W`, `M1` … `
 
 The player loops each 6–8 second animation, holds briefly on the last frame, and has a Play/Pause button.
 It starts paused for anyone who has turned on reduced motion.
+
+## Portfolio
+
+`portfolio/` shows the eight animations, the eight character illustrations and the illustrated campus map:
+https://ampenaranda.github.io/lo101-animations/portfolio/
