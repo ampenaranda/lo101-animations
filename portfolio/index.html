@@ -16,7 +16,7 @@
   .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr)); gap:20px; }
   figure { margin:0; background:var(--card); border-radius:16px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,.08); }
   figcaption { padding:10px 14px 14px; font-size:15px; }
-  .frame { position:relative; padding-bottom:56.25%; }
+  .frame { position:relative; padding-bottom:45.45%; }
   .frame iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
   img { display:block; width:100%; height:auto; }
   .map { max-width:760px; }
@@ -57,7 +57,7 @@ const M = [["W","Welcome","A student opens her laptop at the kitchen table and s
 const S = {W:"W_kitchen",M1:"M1_bus",M2:"M2_break",M3:"M3_desk",M4:"M4_couch",M5:"M5_beanbag",M6:"M6_pair",M7:"M7_cheer"};
 const m = document.getElementById("moments"), s = document.getElementById("scenes");
 for (const [k, title, alt] of M) {
-  m.insertAdjacentHTML("beforeend", `<figure><div class="frame"><iframe src="../index.html?m=${k}" title="Animation: ${alt}" loading="lazy"></iframe></div><figcaption><strong>${title}.</strong> ${alt}.</figcaption></figure>`);
+  m.insertAdjacentHTML("beforeend", `<figure><div class="frame"><iframe src="../index.html?m=${k}&layout=wide" title="Animation: ${alt}" loading="lazy"></iframe></div><figcaption><strong>${title}.</strong> ${alt}.</figcaption></figure>`);
   s.insertAdjacentHTML("beforeend", `<figure><img src="img/${S[k]}.jpg" alt="Illustration: ${alt}" loading="lazy"><figcaption>${title}</figcaption></figure>`);
 }
 </script>
