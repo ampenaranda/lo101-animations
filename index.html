@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Learning Online 101 animation</title>
+<style>
+  /* LO 101 moment player (Nov 9, 2026). Embedded in Canvas as an iframe: player.html?m=M4.
+     1280x720 video shown at most 640px wide = 2x for Retina. Loops with a short hold on the last frame; Pause is always one tap away
+     (WCAG 2.2.2). Reduced-motion users start paused. */
+  html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; }
+  .wrap { position: relative; width: 100%; height: 100%; border-radius: 16px; overflow: hidden; background: #FDF8EF; }
+  video { display: block; width: 100%; height: 100%; object-fit: cover; transition: opacity .35s ease; }
+  video.fade { opacity: 0; }
+  button {
+    position: absolute; left: 12px; bottom: 12px; width: 48px; height: 48px; border-radius: 50%;
+    border: 2px solid #174A5D; background: #FFFFFF; color: #174A5D; cursor: pointer;
+    display: grid; place-items: center; padding: 0; box-shadow: 0 2px 6px rgba(0,0,0,.25);
+  }
+  button:focus-visible { outline: 3px solid #174A5D; outline-offset: 3px; }
+  button svg { width: 22px; height: 22px; fill: currentColor; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <video id="v" muted playsinline preload="auto"></video>
+  <button id="b" type="button" aria-pressed="false"></button>
+  <p class="sr" id="d"></p>
+</div>
+<script>
+const M = {
+  W:  "A student opens her laptop at the kitchen table and smiles, ready to start",
+  M1: "A student at a bus stop taps her phone and smiles",
+  M2: "A student posts a question on his phone, gets a reply and smiles",
+  M3: "A student plans her week in a paper planner and lifts her pen, pleased",
+  M4: "A student sees an error on his phone, fixes it on his laptop and leans back, relieved",
+  M5: "A student watches a lecture on her laptop with headphones and cheers when it clicks",
+  M6: "Two students read their screens. One looks puzzled, the other raises her hand",
+  M7: "A student at her laptop throws her arms up and cheers"
+};
+const PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+const PAUSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
+const key = (new URLSearchParams(location.search).get("m") || "W").replace(/[^A-Z0-9]/gi, "").toUpperCase();
+const id = M[key] ? key : "W";
+const v = document.getElementById("v"), b = document.getElementById("b");
+v.src = "vid/" + id + ".mp4"; v.poster = "img/" + id + ".jpg";
+v.setAttribute("aria-label", "Animation: " + M[id]);
+document.getElementById("d").textContent = "Animation: " + M[id] + ".";
+let playing = false, hold = null;
+function setBtn() {
+  b.innerHTML = playing ? PAUSE : PLAY;
+  b.setAttribute("aria-label", playing ? "Pause animation" : "Play animation");
+  b.setAttribute("aria-pressed", playing ? "false" : "true");
+}
+function play() { playing = true; setBtn(); v.play().catch(() => { playing = false; setBtn(); }); }
+function pause() { playing = false; setBtn(); clearTimeout(hold); hold = null; v.classList.remove("fade"); v.pause(); }
+v.addEventListener("ended", () => {          // hold the last frame, fade, start again
+  if (!playing) return;
+  hold = setTimeout(() => {
+    v.classList.add("fade");
+    hold = setTimeout(() => { v.currentTime = 0; v.classList.remove("fade"); if (playing) v.play(); }, 350);
+  }, 1400);
+});
+b.addEventListener("click", () => (playing ? pause() : play()));
+const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+setBtn();
+if (!reduce) play();
+</script>
+</body>
+</html>
