@@ -36,6 +36,10 @@
   .num.dark { color:var(--ink); }
   .sum { font-size:.86em; line-height:1.35; margin-top:.25em; opacity:0; transition:opacity .5s ease; max-width:18em; text-wrap:balance; }
   .sum.on { opacity:1; }
+  /* Nov 16 2026 (Ana, phone review): on a phone every step and the summary show from the start, full contrast, so the
+     panel is never an empty block; the step that is playing gets a thicker outline (not colour alone: the marker number matches). */
+  .phone .pill, .phone .sum { opacity:1; transform:none; }
+  .phone .pill.cur { border-width:3px; }
   button { position:absolute; right:12px; bottom:12px; width:48px; height:48px; border-radius:50%; border:2px solid var(--ink); background:#FFFFFF; color:var(--ink);
            cursor:pointer; display:grid; place-items:center; padding:0; box-shadow:0 2px 6px rgba(0,0,0,.25); z-index:3; }
   .phone button { top:12px; bottom:auto; }
@@ -83,6 +87,7 @@ function draw(t) {   // only the current step's line and marker; it fades when t
   S.steps.forEach((s, i) => {
     pills[i].classList.toggle("on", reduce || t >= s[0]);
     const nextT = i < last ? S.steps[i + 1][0] : Infinity;
+    pills[i].classList.toggle("cur", !reduce && t >= s[0] && t < nextT);
     let a = reduce ? (i === last ? 1 : 0) : (t < s[0] ? 0 : t < nextT ? 1 : Math.max(0, 1 - (t - nextT) / 0.3));
     if (a <= 0) return;
     const p = reduce ? 1 : Math.max(0, Math.min(1, (t - s[0]) / DRAW)), z = target(s);
